@@ -1,0 +1,191 @@
+# Effort for each open card on the team board (Board in
+# _data/communication_system_infograph.yml), for the priority × effort matrix
+# above the kanban board
+# (_includes/ocs_priority_matrix.html). The board has a Priority field but no
+# effort field, so effort lives here.
+#
+#   id        the card's item id on the board (the itemId in its board link)
+#   title     for people reading this file; cards are matched by id
+#   effort    S, M or L (see Efforts below)
+#   priority  only used while the card has no Priority on the board: a
+#             suggestion, shown with a dashed outline until someone sets it there
+#
+# A card that isn't listed here (a new one) shows under "Not sorted yet" below
+# the matrix until it gets an effort.
+
+Efforts:
+  S: "A day or less"
+  M: "A few days"
+  L: "A week or more"
+
+Cards:
+  # ── Backlog ─────────────────────────────────────────────────────────
+  - id: 270907893
+    title: Contrast check for every theme preset, run before each build
+    effort: M
+  - id: 270907961
+    title: "Finish the ocs__ rename: retire the legacy button classes"
+    effort: L
+    priority: Low
+  - id: 270908034
+    title: Design tokens for Spring's server-rendered pages
+    effort: L
+  - id: 270908113
+    title: Course buttons at the top of the lesson sidebar
+    effort: S
+    priority: Low
+  - id: 270908192
+    title: '"Next sprint" link at the end of each sprint''s lessons'
+    effort: S
+    priority: Low
+  - id: 270908270
+    title: Edit an event from its card
+    effort: M
+    priority: Medium
+  - id: 270908332
+    title: Lesson teaching days and homework due dates on the calendar
+    effort: L
+    priority: Medium
+  - id: 270908405
+    title: Unread thread replies in the notification bell
+    effort: M
+    priority: Medium
+  - id: 270908470
+    title: Mentors see only their own teams' chats
+    effort: M
+    priority: Medium
+  - id: 270908528
+    title: Unverified mentors can read but not post
+    effort: S
+    priority: Medium
+  - id: 270908594
+    title: Mentor ↔ student direct messages
+    effort: L
+    priority: Medium
+  - id: 270908644
+    title: Group DMs (small private groups)
+    effort: L
+    priority: Low
+  - id: 270908703
+    title: Typing indicator and read receipts in DMs
+    effort: M
+    priority: Low
+  - id: 270908778
+    title: Block, mute and report in DMs
+    effort: L
+    priority: Medium
+  - id: 270908836
+    title: Save chat reactions on the server
+    effort: M
+    priority: Low
+  - id: 270908893
+    title: Load older chat messages as you scroll
+    effort: M
+    priority: Medium
+
+  # ── To do ───────────────────────────────────────────────────────────
+  - id: 270908973
+    title: Show Mr. Mortensen the replies + threads demo and get feedback
+    effort: S
+  - id: 270909096
+    title: "Write the chat permissions table: student · mentor · teacher · admin"
+    effort: S
+  - id: 270909207
+    title: Reconcile the three edit/delete implementations
+    effort: L
+  - id: 270909303
+    title: "Decide: keep or retire the calendar demo page (UGRC #93)"
+    effort: S
+  - id: 270909372
+    title: Put the calendar card on each Week intro page
+    effort: S
+  - id: 270909438
+    title: "Spring: only an event's creator or a teacher can remove it"
+    effort: S
+  - id: 270909524
+    title: Mentor badge on chat messages
+    effort: S
+  - id: 270909615
+    title: Mentor chat on each capstone page
+    effort: M
+  - id: 270909695
+    title: "Fix the seven broken things in the SASS lessons (UGRC #81)"
+    effort: M
+  - id: 270909778
+    title: "Spring PR: store chat files on local disk when S3 isn't set up"
+    effort: M
+  - id: 270909848
+    title: Send attachments through the file endpoint, not data URIs
+    effort: M
+  - id: 270909914
+    title: Kickoff meeting with our capstone mentor, Mr. Blackman
+    effort: S
+    priority: High
+  - id: 270909967
+    title: "Close or rebase TheSprintz #10 (367 files)"
+    effort: M
+  - id: 270910041
+    title: "Close the superseded UGRC Spring DM PRs (#3, #7)"
+    effort: S
+  - id: 270910135
+    title: Merge or close Samarth's open UGRC PRs
+    effort: S
+
+  # ── In progress ─────────────────────────────────────────────────────
+  - id: 270910214
+    title: Mentor-role handoff from Rudra (Admin team)
+    effort: S
+  - id: 270910305
+    title: Edit and delete your own messages in announcement + week chats
+    effort: M
+  - id: 270910382
+    title: Chat send button stays a fixed size with long drafts
+    effort: S
+  - id: 270910472
+    title: Chat & WebSockets lesson (Unit 2)
+    effort: L
+    priority: High
+  - id: 270910523
+    title: "Capstone and Topics pages: checkbox filters and clearer text matches"
+    effort: M
+    priority: Medium
+  - id: 270910579
+    title: Each course's Blogs page shows only its own posts, with search
+    effort: M
+    priority: Medium
+  - id: 270910638
+    title: GameBuilder docs search
+    effort: S
+    priority: Low
+  - id: 270910701
+    title: "Lesson sidebar: indent each week's lessons under its intro"
+    effort: S
+    priority: Low
+  - id: 270910759
+    title: Markdown table stripes follow the reader's theme
+    effort: S
+    priority: Low
+
+  # ── In review ───────────────────────────────────────────────────────
+  - id: 270910816
+    title: "Replies + threads: Spring backend"
+    effort: L
+  - id: 270910871
+    title: "Replies + threads: demo page /csa/chat-threads"
+    effort: M
+  - id: 270910958
+    title: "Standardize lesson front matter + add reference guides (TheSprintz #6)"
+    effort: M
+    priority: Medium
+  - id: 270911014
+    title: "Chat nav link through _config.yml instead of hardcoding the menu (TheSprintz #8)"
+    effort: S
+    priority: Low
+  - id: 270911072
+    title: "2.4 lesson meets the LxD requirement (UGRC #89)"
+    effort: S
+    priority: High
+  - id: 270911142
+    title: "In-thread DM editing (TheSprintz #10)"
+    effort: M
+    priority: Medium

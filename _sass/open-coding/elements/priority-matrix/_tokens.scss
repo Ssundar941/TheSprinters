@@ -1,0 +1,29 @@
+// Design tokens for the priority × effort matrix. Its columns and cards are the
+// kanban element's, so these cover only the rows around them. Sizes come from
+// the shared scale in mixins/_variables.scss; colors are CSS color-mix() over
+// the theme variables, so a saved preference theme still recolors it.
+
+// label is the priority column on the left; under the stack breakpoint the
+// label sits above its row instead (a phone).
+$matrix-row: (
+  label: 7rem,
+  gap: $spacing-sm,
+  label-padding: $spacing-sm,
+  radius: $radius-lg,
+  stack-below: 40rem,
+);
+
+// The row label's tint: the same faint text color as a kanban column, so the
+// labels read as part of the board.
+$matrix-label-tint: 3%;
+
+// A suggested priority's outline: dashed, in the muted text color, so it
+// shows on the card's panel without reading as a highlight.
+$matrix-suggested-border: 1px dashed var(--text-muted);
+
+// ── Functions ───────────────────────────────────────────────────────────
+
+// A theme color mixed into a surface. Returns CSS for the browser to resolve.
+@function matrix-mix($color, $amount, $base: var(--panel)) {
+  @return unquote("color-mix(in srgb, #{$color} #{$amount}, #{$base})");
+}

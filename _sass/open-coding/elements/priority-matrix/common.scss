@@ -1,0 +1,92 @@
+// Public grammar (assets/js/priority-matrix.js builds it):
+//   section.ocs__matrix        the frame (with ocs__card ocs__keypoints)
+//   .ocs__matrix-guide         how to read it; .ocs__matrix-key shows the dashed outline
+//   .ocs__matrix-rows          the three priority rows, stacked
+//   .ocs__matrix-row           one priority: .ocs__matrix-label, then a
+//                              ul.ocs__kanban-board of effort columns
+//   .ocs__kanban-item.is-suggested   a card whose priority is only a suggestion
+//   .ocs__matrix-more          a full column's "+N more" pill (a button)
+//   .ocs__matrix-tray          cards not sorted yet, under the rows
+//
+// The columns and cards are the kanban element's own classes, so the matrix
+// looks like the board under it. The names stay clear of the suffixes
+// _sass/capstone/infograph.scss restyles inside *-infograph includes
+// ("-card", "-title", "-header", "-status" ...).
+
+.ocs__matrix-guide {
+  margin: 0;
+}
+
+.ocs__matrix-key {
+  padding: 0 $spacing-xxxs;
+  border: $matrix-suggested-border;
+  border-radius: $radius-md;
+}
+
+// The filters, the rows and the tray, spaced like the kanban's. :not([hidden])
+// because a display rule beats the hidden attribute the script lifts on load.
+.ocs__matrix > [data-hook="mount"]:not([hidden]) {
+  display: grid;
+  gap: map-get($matrix-row, gap);
+}
+
+.ocs__matrix-rows {
+  display: grid;
+  gap: map-get($matrix-row, gap);
+}
+
+.ocs__matrix-row {
+  display: grid;
+  grid-template-columns: map-get($matrix-row, label) minmax(0, 1fr);
+  gap: map-get($matrix-row, gap);
+  align-items: stretch;
+}
+
+// Styled like a kanban column, so the labels read as part of the board.
+.ocs__matrix-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xxxs;
+  padding: map-get($matrix-row, label-padding);
+  border: 1px solid var(--ui-border);
+  border-radius: map-get($matrix-row, radius);
+  background: matrix-mix(var(--pref-text-color), $matrix-label-tint);
+  color: var(--pref-text-color);
+  text-align: center;
+}
+
+@media (max-width: #{map-get($matrix-row, stack-below)}) {
+  .ocs__matrix-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ocs__matrix-label {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+}
+
+.ocs__matrix .ocs__kanban-item.is-suggested {
+  border: $matrix-suggested-border;
+}
+
+// A pill that is a button: the shared pill's look, without the button's.
+.ocs__matrix-more {
+  font: inherit;
+  cursor: pointer;
+}
+
+.ocs__matrix-tray {
+  display: grid;
+  gap: $spacing-xxs;
+  padding-top: $spacing-xs;
+  border-top: 1px dashed var(--ui-border);
+}
+
+.ocs__matrix-tray-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: $spacing-xxs;
+}

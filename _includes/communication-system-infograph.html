@@ -8,8 +8,9 @@
     <p class="comms-description">{{ data.Description }}</p>
   </div>
 
-  <!-- Sprint Board: live from the team's GitHub project -->
+  <!-- Sprint Board: live from the team's GitHub project, sorted by priority × effort above the kanban -->
   {% if data.Board %}
+  {% include ocs_priority_matrix.html url=data.Board.url filter=data.Board.filter sizes=site.data.communication_system_task_sizes %}
   {% include ocs_kanban_board.html url=data.Board.url filter=data.Board.filter %}
   {% endif %}
 

@@ -1,0 +1,8 @@
+// Priority × effort matrix: a project board's open cards in a grid of priority
+// (rows) by effort (columns). A page adds one with
+// _includes/ocs_priority_matrix.html above the board's kanban, and
+// assets/js/priority-matrix.js builds it. Its columns and cards are the kanban
+// element's, and the frame and filters are existing OCS elements (ocs__card,
+// ocs__links, ocs__btn); this element is only the rows and their labels.
+@import "tokens";
+@import "common";

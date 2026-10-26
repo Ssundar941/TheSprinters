@@ -1,0 +1,43 @@
+{% comment %}
+  Priority × effort matrix: a project board's open cards in a grid of
+  priority (rows: High, Medium, Low) by effort (columns: Small, Medium,
+  Large). Put it above the same board's kanban:
+
+  {% raw %}{% include ocs_priority_matrix.html url="https://github.com/orgs/UGRC-CSA/projects/1" filter="Team" sizes=site.data.communication_system_task_sizes %}
+  {% include ocs_kanban_board.html url="https://github.com/orgs/UGRC-CSA/projects/1" filter="Team" %}{% endraw %}
+
+  Options:
+    url      the board's address; the same as the kanban include's (required)
+    filter   the same filter field as the kanban include's      default: no filter
+    sizes    a _data file with each card's effort (see
+             _data/communication_system_task_sizes.yml)          (required)
+    title    the heading                          default: "Priority × effort"
+
+  The cards come from the kanban on the same page, without asking GitHub
+  again (assets/js/priority-matrix.js). Its columns and cards are the
+  kanban's own (ocs__kanban-*), and the frame and filters are existing OCS
+  elements (ocs__card, ocs__links, ocs__btn, ocs__text); only the rows and
+  their labels are the ocs__matrix element
+  (_sass/open-coding/elements/priority-matrix/).
+{% endcomment %}
+{% assign ocs_matrix_title = include.title | default: "Priority × effort" %}
+<section class="ocs__card ocs__keypoints ocs__matrix" data-ocs-priority-matrix data-board-url="{{ include.url | escape }}" data-filter="{{ include.filter | escape }}" aria-label="{{ ocs_matrix_title | escape }}">
+  <div class="ocs__links">
+    <strong>{{ ocs_matrix_title | escape }}</strong>
+    <span class="ocs__text" data-hook="meta"></span>
+  </div>
+  <p class="ocs__text ocs__matrix-guide">
+    Each row is a <strong>priority</strong> (High, Medium, Low) and each column an
+    <strong>effort</strong> (Small, Medium, Large). A <span class="ocs__matrix-key">dashed outline</span>
+    means the priority is a suggestion: set it on the board to confirm.
+  </p>
+  <div class="ocs__text" data-hook="status" role="status" hidden></div>
+  <div data-hook="mount" hidden></div>
+  <script type="application/json" data-hook="sizes">{{ include.sizes | jsonify }}</script>
+  <noscript><div class="ocs__text">Turn on JavaScript to see the matrix.</div></noscript>
+</section>
+
+{% unless ocs_priority_matrix_assets %}
+{% assign ocs_priority_matrix_assets = true %}
+<script type="module" src="{{ site.baseurl }}/assets/js/priority-matrix.js"></script>
+{% endunless %}

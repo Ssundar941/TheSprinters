@@ -23,6 +23,11 @@
 // The filters, counts and backlog toggle are existing OCS elements
 // (ocs__links, ocs__btn, ocs__status-pill, ocs__toggle); the columns and cards
 // are the ocs__kanban element (_sass/open-coding/elements/kanban/).
+//
+// Other views of the same cards (assets/js/priority-matrix.js) don't fetch
+// the board again: each time a board is drawn, its section fires an
+// "ocs-kanban:board" event with the board, and loadBoardNow() starts a load
+// before the board itself has scrolled near the screen.
 
 const API = 'https://api.github.com';
 const FRESH_MS = 10 * 60 * 1000;       // a saved board is reused this long
@@ -411,6 +416,9 @@ function safeStorage() {
   try { return globalThis.localStorage || null; } catch (_) { return null; }
 }
 
+// Where a board is saved: one entry per board and filter field.
+export const boardCacheKey = (ref, filterName) => `ocs-kanban:v4:${ref.apiPath}:${filterName}`;
+
 export function readEntry(key, storage = safeStorage()) {
   try { return JSON.parse(storage.getItem(key)) || null; } catch (_) { return null; }
 }
@@ -666,10 +674,14 @@ async function mountBoard(section) {
     return;
   }
   const filterName = section.dataset.filter || '';
-  const key = `ocs-kanban:v4:${ref.apiPath}:${filterName}`;
+  const key = boardCacheKey(ref, filterName);
   const view = boardView(section);
+  const show = (board) => {
+    view.show(board);
+    section.dispatchEvent(new CustomEvent('ocs-kanban:board', { bubbles: true, detail: { board } }));
+  };
   let entry = readEntry(key);
-  if (entry?.board) view.show(entry.board);
+  if (entry?.board) show(entry.board);
 
   const state = cacheState(entry, Date.now());
   if (state === 'fresh') return;
@@ -681,7 +693,7 @@ async function mountBoard(section) {
   try {
     entry = await refreshBoard(ref, { filterName, meta: entry?.meta, metaAt: entry?.metaAt });
     writeEntry(key, entry);
-    view.show(entry.board);
+    show(entry.board);
     setStatus(section, '');
   } catch (err) {
     if (!(err instanceof BoardError)) console.error('Kanban board: could not draw the board', err);
@@ -694,10 +706,18 @@ async function mountBoard(section) {
 
 // Each board loads when it comes within 400px of the screen, so a board far
 // down a long page costs no requests until someone scrolls to it.
+// Starts a board's load once, whichever asks first: the board scrolling near
+// the screen, or another view of its cards (the priority matrix) doing so.
+export function loadBoardNow(section) {
+  if (section.dataset.loading) return;
+  section.dataset.loading = 'true';
+  mountBoard(section).catch((err) => console.error('Kanban board: load failed', err));
+}
+
 function mountWhenNear(section) {
   if (section.dataset.mounted) return;
   section.dataset.mounted = 'true';
-  const start = () => mountBoard(section).catch((err) => console.error('Kanban board: load failed', err));
+  const start = () => loadBoardNow(section);
   if (!('IntersectionObserver' in window)) {
     start();
     return;
